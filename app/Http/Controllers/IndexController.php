@@ -7,12 +7,10 @@ use Illuminate\Http\Request;
 class IndexController extends Controller
 {
     public function index(){
-        $res =request()->get("echostr","");
+        $echoStr =request()->get("echostr","");
         if($this->checkSignature() && !empty($echoStr)){
                         //至少微信公众平台第一次接入调用走这个
                         echo $echoStr;
-                        exit;
-                    }else{
 
                     }
     }
