@@ -15,3 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test','TestController@test1');
+Route::get('/weChat','IndexController@checkSignature');
