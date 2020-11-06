@@ -20,7 +20,7 @@ class IndexController extends Controller
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = "mashuaisheng";
+        $token = env('WX_TOKEN');
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
@@ -32,6 +32,10 @@ class IndexController extends Controller
             return false;
         }
     }
+
+
+
+
     //获取access_token
     public function getAccessToken(){
             $key = 'wx:access_token';//Redis存入名称
@@ -47,7 +51,8 @@ class IndexController extends Controller
                 $data = json_decode($response,true);//对JSON格式的字符串进行解码
                 $token = $data['access_token'];
                 //保存到Redis中 时间为 3600
-                Redis::set($key,$token);//存入reds
+                Redis::set($key,$token);//存入reds。
+
                 Redis::expire($key,3600);//过期时间
             }
             echo "access_token: ".$token;
