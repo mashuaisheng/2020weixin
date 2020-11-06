@@ -8,14 +8,6 @@ class IndexController extends Controller
 {
     //接入微信
     public function index(){
-        $echoStr =request()->get("echostr","");
-        if($this->checkSignature() && !empty($echoStr)){
-                //至少微信公众平台第一次接入调用走这个
-                echo $echoStr;
-        }
-    }
-    private function checkSignature()
-    {
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
@@ -27,9 +19,9 @@ class IndexController extends Controller
         $tmpStr = sha1( $tmpStr );
 
         if( $tmpStr == $signature ){
-            return true;
+             echo $_GET['echostr'];
         }else{
-            return false;
+            echo "111";
         }
     }
 
