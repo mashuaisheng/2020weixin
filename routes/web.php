@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test','TestController@test1');
-Route::get('/weChat','IndexController@index');
+Route::get('/weChat','IndexController@index');  //微信接入
+Route::get('/wx/token','IndexController@getAccessToken');        //获取access_token
