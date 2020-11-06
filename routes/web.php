@@ -16,4 +16,5 @@ Route::get('/', function () {
 });
 //Route::get('/test','TestController@test1');
 Route::any('/wx','IndexController@wxEvent');  //微信接入 接受时间推送
+Route::any('/wx/index','IndexController@index');  //微信接入
 Route::get('/wx/token','IndexController@getAccessToken');        //获取access_token
