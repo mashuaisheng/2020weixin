@@ -15,6 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Route::get('/test','TestController@test1');
-Route::any('/wx','IndexController@wxEvent');  //微信接入 接受时间推送
-Route::any('/wx/index','IndexController@index');  //微信接入
-Route::get('/wx/token','IndexController@getAccessToken');        //获取access_token
+
+Route::prefix('/test')->group(function(){
+    Route::get('/guzzle1','TestController@guzzle1');
+    Route::get('/guzzle2','IndexController@guzzle2');
+    Route::get('/guzzle3','TestController@guzzle3');
+});
+
+
+Route::prefix('/wx')->group(function(){
+    Route::any('/','IndexController@wxEvent');  //微信接入 接受时间推送
+    Route::any('/index','IndexController@index');  //微信接入
+    Route::get('/token','IndexController@getAccessToken');        //获取access_token
+});
