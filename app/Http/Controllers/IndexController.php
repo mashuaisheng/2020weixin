@@ -74,6 +74,11 @@ class IndexController extends Controller
                         //清除用户的信息
                     }
                 }
+            }
+    }
+
+
+
 
     /**
          * 处理推送事件
