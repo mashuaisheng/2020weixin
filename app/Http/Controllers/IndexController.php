@@ -1,30 +1,79 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Model\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 class IndexController extends Controller
 {
     //接入微信
-    public function index(){
+    public function index()
+    	{
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = env('WX_TOKEN');
+        $token = 'TOKEN';
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
         $tmpStr = sha1( $tmpStr );
 
         if( $tmpStr == $signature ){
-             echo $_GET['echostr'];
-        }else{
-            echo "111";
-        }
-    }
+            $xml_str = file_get_contents('php://input');
+            $data = simplexml_load_string($xml_str, 'SimpleXMLElement', LIBXML_NOCDATA);
+                if (strtolower($data->MsgType) == "event") {
+                    //关注
+                    if (strtolower($data->Event == 'subscribe')) {
+                        //回复用户消息(纯文本格式)
+                        $toUser = $data->FromUserName;
+                        $fromUser = $data->ToUserName;
+                        $msgType = 'text';
+                        $content = '欢迎关注';
+                        //根据OPENID获取用户信息（并且入库）
+                            //1.获取openid
+                        $token=$this->token();
+                        $url="https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$token."&openid=".$toUser."&lang=zh_CN";
+                        file_put_contents('wx_event.log',$url);
+                        $user=file_get_contents($url);
+                        $user=json_decode($user,true);
+                        $wxuser=UserModel::where('openid',$user['openid'])->first();
+                        if(!empty($wxuser)){
+                            $content="欢迎回来";
+                        }else{
+                            $data=[
+                                        "subscribe" => $user['subscribe'],
+                                        "openid" => $user["openid"],
+                                        "nickname" => $user["nickname"],
+                                        "sex" => $user["sex"],
+                                        "city" => $user["city"],
+                                        "country" => $user["country"],
+                                        "province" => $user["province"],
+                                        "language" => $user["language"],
+                                        "headimgurl" => $user["headimgurl"],
+                                        "subscribe_time" => $user["subscribe_time"],
+                                        "subscribe_scene" => $user["subscribe_scene"]
+                            ];
+                            $data=UserModel::insert($data);
+                        }
+
+                        //%s代表字符串(发送信息)
+                        $template = "<xml>
+                                <ToUserName><![CDATA[%s]]></ToUserName>
+                                <FromUserName><![CDATA[%s]]></FromUserName>
+                                <CreateTime>%s</CreateTime>
+                                <MsgType><![CDATA[%s]]></MsgType>
+                                <Content><![CDATA[%s]]></Content>
+                                </xml>";
+                        $info = sprintf($template, $toUser, $fromUser, time(), $msgType, $content);
+                        return $info;
+                    }
+                    //取关
+                    if (strtolower($data->Event == 'unsubscribe')) {
+                        //清除用户的信息
+                    }
+                }
 
     /**
          * 处理推送事件
