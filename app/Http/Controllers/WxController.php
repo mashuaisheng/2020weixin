@@ -8,10 +8,14 @@ class WxController extends Controller
 {
     //微信公众平台
         public function index(){
-            $this->responseMsg();
+        $res = request()->get('echostr','');
+        if($this->checkSignature() && !empty($res)){
+             echo $res;
+        }
+            //$this->responseMsg();
         }
         //配置连接
-        public function checkSignature()
+        private function checkSignature()
         {
             $signature = $_GET["signature"];
             $timestamp = $_GET["timestamp"];
@@ -86,10 +90,10 @@ class WxController extends Controller
                 $CreateTime=time();
                 $MsgType='text';
                 $a=[
-                    "欢迎",
-                    "来了老弟",
+                    "欢迎来到公众号",
+                    "你好啊",
                     "什么风把你吹来了",
-                    "welcome",
+                    "welcome to China",
                 ];
                 $array=$a;
                 $Content=$array[array_rand($array)];

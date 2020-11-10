@@ -29,8 +29,7 @@ Route::prefix('/wxs')->group(function(){
     //Route::get('/token','WxController@getAccessToken');        //获取access_token
 });
 
-Route::any('/index','WxController@index');
+Route::any('/wx/index','WxController@index');
 Route::get('/token','WxController@token');
-Route::any('/wxx','WxController@checkSignature');
 Route::any('/wx','WxController@wx');
 
