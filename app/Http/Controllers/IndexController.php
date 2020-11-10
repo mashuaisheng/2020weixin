@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 class IndexController extends Controller
 {
     //接入微信
-    public function index(){
+    /*public function index(){
                 $signature = $_GET["signature"];
                 $timestamp = $_GET["timestamp"];
                 $nonce = $_GET["nonce"];
@@ -19,7 +19,39 @@ class IndexController extends Controller
                 $tmpStr = implode( $tmpArr );
                 $tmpStr = sha1( $tmpStr );
 
+    }*/
+
+
+    public function index(){
+        $res = request()->get('echostr','');
+         if($this->checkSignature() && !empty($res)){
+                      echo $res;
+         }
     }
+    //配置连接
+    private function checkSignature()
+    {
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
+
+        $token = env('WX_TOKEN');
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+
+        if( $tmpStr == $signature ){
+            $xml_str = file_get_contents("php://input");
+            file_put_contents('wx_event.log',$xml_str);
+            echo "";
+            die;
+        }else{
+            return false;
+        }
+    }
+
+
 
 
     /**
