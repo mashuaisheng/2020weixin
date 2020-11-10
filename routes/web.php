@@ -24,7 +24,12 @@ Route::prefix('/test')->group(function(){
 
 
 Route::prefix('/wx')->group(function(){
-    Route::any('/','IndexController@wxEvent');  //微信接入 接受时间推送
-    Route::any('/index','IndexController@index');  //微信接入
-    Route::get('/token','IndexController@getAccessToken');        //获取access_token
+    //Route::any('/','WxController@wxEvent');  //微信接入 接受时间推送
+   // Route::any('/index','WxController@index');  //微信接入
+    //Route::get('/token','WxController@getAccessToken');        //获取access_token
 });
+
+Route::any('/index','WxController@index');
+Route::get('/token','WxController@token');
+Route::any('/wx','WxController@wx');
+
