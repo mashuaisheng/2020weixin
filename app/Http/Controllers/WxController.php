@@ -11,7 +11,7 @@ class WxController extends Controller
             $this->responseMsg();
         }
         //配置连接
-        private function checkSignature()
+        public function checkSignature()
         {
             $signature = $_GET["signature"];
             $timestamp = $_GET["timestamp"];
@@ -75,7 +75,8 @@ class WxController extends Controller
                 }
                 echo "access_token：".$token;
             }
-public function responseMsg(){
+
+        public function responseMsg(){
         $postStr=file_get_contents("php://input");
         $postobj=simplexml_load_string($postStr);
         if($postobj->MsgType=='event'){

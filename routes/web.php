@@ -31,5 +31,6 @@ Route::prefix('/wxs')->group(function(){
 
 Route::any('/index','WxController@index');
 Route::get('/token','WxController@token');
+Route::any('/wxx','WxController@checkSignature');
 Route::any('/wx','WxController@wx');
 
