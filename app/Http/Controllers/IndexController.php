@@ -14,7 +14,7 @@ class IndexController extends Controller
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
 
-        $token = 'TOKEN';
+        $token = env('WX_TOKEN');
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
@@ -57,7 +57,7 @@ class IndexController extends Controller
                             ];
                             $data=UserModel::insert($data);
                         }
-
+}
                         //%s代表字符串(发送信息)
                         $template = "<xml>
                                 <ToUserName><![CDATA[%s]]></ToUserName>
