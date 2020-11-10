@@ -12,7 +12,7 @@ class WxController extends Controller
         if($this->checkSignature() && !empty($res)){
              echo $res;
         }
-            //$this->responseMsg();
+            $this->responseMsg();
         }
         //配置连接
         private function checkSignature()
