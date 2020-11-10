@@ -31,6 +31,7 @@ class WxController extends Controller
                 $xml_str = file_get_contents("php://input");
                 file_put_contents('wx_event.log',$xml_str);
                 echo "";
+                return true;
                 die;
             }else{
                 return false;
