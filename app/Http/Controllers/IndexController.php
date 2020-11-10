@@ -119,16 +119,17 @@ class IndexController extends Controller
         private function responseText($obj,$content){
             $FromUserName=$xml->ToUserName;
             $ToUserName=$xml->FromUserName;
-            $time=time();
-            $msgType="text";
-            $template="<xml>
+            //$time=time();
+            //$msgType="text";
+            $xml="<xml>
                        <ToUserName><![CDATA[".$ToUserName."]]></ToUserName>
                        <FromUserName><![CDATA[".$FromUserName."]]></FromUserName>
                        <CreateTime>time()</CreateTime>
                        <MsgType><![CDATA[text]]></MsgType>
                        <Content><![CDATA[".$content."]]></Content>
-                       </xml>";//发送//来自//时间//类型//内容
-            echo sprintf($template,$toUserName,$fromUserName,$time,$msgType,$content);
+                       </xml>";//发送//来自//时间//类型//
+                       echo $xml;
+            //echo sprintf($template,$toUserName,$fromUserName,$time,$msgType,$content);
         }
 
 
