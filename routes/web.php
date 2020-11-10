@@ -32,4 +32,4 @@ Route::prefix('/wxs')->group(function(){
 Route::any('/wx/index','WxController@index');
 Route::get('/token','WxController@token');
 Route::any('/wx','WxController@wx');
-
+Route::get('/menu','WxController@createMenu');

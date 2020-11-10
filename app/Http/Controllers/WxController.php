@@ -79,6 +79,7 @@ class WxController extends Controller
                     Redis::expire($key,3600);//设置过期时间
                 }
                 echo "access_token：".$token;
+                return $token;
             }
 
         public function responseMsg(){
@@ -154,6 +155,32 @@ class WxController extends Controller
             // exit;
         }
 
+    }
+
+    //自定义菜单
+    public function createMenu(){
+        $access_token = $this->token();
+        $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token;
+               $menu=[
+                           'button' => [
+                                'type' =>'click',
+                                'name' => 'wx2004',
+                                'key' => 'k_wx_2004'
+                           ],
+                           [
+                            'type' =>'view',
+                            'name' => 'baidu',
+                             'key' => 'https://www.baidu.com'
+                            ],
+                    ];
+                    //使用guzzle发起get请求
+                    $client = new Client();//实例化 客户端
+                    $response = $client->request('POST',$url,[
+                                'verify'    => false,
+                                'body'      =>json_encode($menu),
+                            ]);       //发起请求并接收响应
+                    $data = $response->getBody();
+                    echo $data;
     }
 
 }
