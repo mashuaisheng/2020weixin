@@ -161,18 +161,20 @@ class WxController extends Controller
     public function createMenu(){
         $access_token = $this->token();
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token;
-               $menu=[
-                           'button' => [
-                                'type' =>'click',
-                                'name' => 'wx2004',
-                                'key' => 'k_wx_2004'
-                           ],
-                           [
-                            'type' =>'view',
-                            'name' => 'baidu',
-                             'key' => 'https://www.baidu.com'
-                            ],
-                    ];
+        $menu = [
+                    'button'    => [
+                        [
+                            'type'  => 'click',
+                            'name'  => 'WX2004',
+                            'key'   => 'k_wx_2004'
+                        ],
+                        [
+                            'type'  => 'view',
+                            'name'  => 'BAIDU',
+                            'url'   => 'https://www.baidu.com'
+                        ],
+                    ]
+                ];
                     //使用guzzle发起get请求
                     $client = new Client();//实例化 客户端
                     $response = $client->request('POST',$url,[
