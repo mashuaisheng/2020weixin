@@ -43,7 +43,7 @@ class IndexController extends Controller
                 $xml_str = file_get_contents("php://input") . "\n\n";
 
                 // 记录日志
-                file_put_contents('wx_event.log',$xml_str,FILE_APPEND);
+                file_put_contents('wx_event.log',$xml_str);
                 //将接受来的数据转化为对象
                 $obj=simplexml_load_string($xml_str);//将文件转换成对象
                 if($obj->MsgType=="event"){
