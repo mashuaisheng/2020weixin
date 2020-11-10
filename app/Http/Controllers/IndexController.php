@@ -45,7 +45,7 @@ class IndexController extends Controller
                 // 记录日志
                 file_put_contents('wx_event.log',$xml_str,FILE_APPEND);
                 //将接受来的数据转化为对象
-                $obj=simplexml_load_string($xml);//将文件转换成对象
+                $obj=simplexml_load_string($xml_str);//将文件转换成对象
                 if($obj->MsgType=="event"){
                     if($obj->Event=="subscribe"){
                         $content="欢迎关注";
