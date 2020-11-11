@@ -190,25 +190,27 @@ class WxController extends Controller
                             'type'  => 'view',
                             'name'  => 'BAIDU',
                             'url'   => 'https://www.baidu.com'
-                        ],
+                        ],[
                         "name"=> "erji",
-                    "sub_button"=> [
-                         [
-                             "type"=> "pic_sysphoto",
-                             "name"=> "xitong",
-                             "key"=> "rselfmenu_1_0"
-                         ],
-                         [
-                             "type"=> "pic_photo_or_album",
-                              "name"=> "paizhao",
-                              "key"=> "rselfmenu_1_1"
-                         ],
-                         [
-                              "type"=> "pic_weixin",
-                              "name"=> "weixin",
-                              "key"=> "rselfmenu_1_2"
-                         ]
-                                ]
+                                            "sub_button"=> [
+                                                 [
+                                                     "type"=> "pic_sysphoto",
+                                                     "name"=> "xitong",
+                                                     "key"=> "rselfmenu_1_0"
+                                                 ],
+                                                 [
+                                                     "type"=> "pic_photo_or_album",
+                                                      "name"=> "paizhao",
+                                                      "key"=> "rselfmenu_1_1"
+                                                 ],
+                                                 [
+                                                      "type"=> "pic_weixin",
+                                                      "name"=> "weixin",
+                                                      "key"=> "rselfmenu_1_2"
+                                                 ]
+                                                        ]
+                        ]
+
                     ],
 
                 ];
