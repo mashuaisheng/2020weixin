@@ -182,43 +182,41 @@ class WxController extends Controller
         $menu = [
                     'button'    => [
                         [
-                            'type'  => 'click',
-                            'name'  => 'WX2004',
-                            'key'   => 'k_wx_2004'
+                            'type'  => 'view',
+                            'name'  => '商城',
+                            'url'   => 'http://mss.mashukai.top/'
                         ],
                         [
                             'type'  => 'view',
-                            'name'  => 'BAIDU',
-                            'url'   => 'https://www.baidu.com'
+                            'name'  => '签到',
+                            'url'   => 'http://weixin.2004.com/test/qiandao'
                         ],[
                         "name"=> "erji",
-                                            "sub_button"=> [
-                                                 [
-                                                     "type"=> "pic_sysphoto",
-                                                     "name"=> "xitong",
-                                                     "key"=> "rselfmenu_1_0"
-                                                 ],
-                                                 [
-                                                     "type"=> "pic_photo_or_album",
-                                                      "name"=> "paizhao",
-                                                      "key"=> "rselfmenu_1_1"
-                                                 ],
-                                                 [
-                                                      "type"=> "pic_weixin",
-                                                      "name"=> "weixin",
-                                                      "key"=> "rselfmenu_1_2"
-                                                 ]
-                                                        ]
+                         "sub_button"=> [
+                             [
+                              "type"=> "pic_sysphoto",
+                              "name"=> "系统",
+                              "key"=> "rselfmenu_1_0"
+                             ],
+                             [
+                              "type"=> "pic_photo_or_album",
+                              "name"=> "拍照",
+                              "key"=> "rselfmenu_1_1"
+                             ],
+                             [
+                               "type"=> "pic_weixin",
+                               "name"=> "图片",
+                               "key"=> "rselfmenu_1_2"
+                             ]
+                          ]
                         ]
-
                     ],
-
                 ];
                     //使用guzzle发起get请求
                     $client = new Client();//实例化 客户端
                     $response = $client->request('POST',$url,[
                                 'verify'    => false,
-                                'body'      =>json_encode($menu),
+                                'body'      =>json_encode($menu,JSON_UNESCAPED_UNICODE),
                             ]);       //发起请求并接收响应
                     $data = $response->getBody();
                     echo $data;

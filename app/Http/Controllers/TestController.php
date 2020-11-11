@@ -44,4 +44,11 @@ class TestController extends Controller
         $data = $response->getBody();
         echo $data;
      }
+
+     public function qiandao(){
+        return view('qiandao.index');
+     }
+
+
+
 }

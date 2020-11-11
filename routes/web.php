@@ -20,6 +20,7 @@ Route::prefix('/test')->group(function(){
     Route::get('/guzzle1','TestController@guzzle1');
     Route::get('/guzzle2','IndexController@guzzle2');
     Route::get('/guzzle3','TestController@guzzle3');
+    Route::get('/qiandao','TestController@qiandao');
 });
 
 
