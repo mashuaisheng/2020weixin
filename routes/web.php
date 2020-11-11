@@ -21,6 +21,7 @@ Route::prefix('/test')->group(function(){
     Route::get('/guzzle2','IndexController@guzzle2');
     Route::get('/guzzle3','TestController@guzzle3');
     Route::get('/qiandao','TestController@qiandao');
+    Route::get('/tianqi','TestController@tianqi');
 });
 
 

@@ -48,6 +48,9 @@ class TestController extends Controller
      public function qiandao(){
         return view('qiandao.index');
      }
+     public function tianqi(){
+             return view('qiandao.tianqi');
+          }
 
 
 

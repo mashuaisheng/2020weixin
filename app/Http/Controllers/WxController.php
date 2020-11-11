@@ -187,11 +187,22 @@ class WxController extends Controller
                             'url'   => 'http://mss.mashukai.top/'
                         ],
                         [
-                            'type'  => 'view',
-                            'name'  => '签到',
-                            'url'   => 'http://weixin.2004.com/test/qiandao'
-                        ],[
                         "name"=> "erji",
+                         "sub_button"=> [
+                             [
+                              'type'  => 'view',
+                              'name'  => '签到',
+                              'url'   => 'http://weixin.2004.com/test/qiandao'
+                             ],
+                             [
+                              "type"=> "view",
+                              "name"=> "查看天气",
+                              "url"=> "http://weixin.2004.com/test/tianqi"
+                             ],
+                          ]
+                        ],
+                        [
+                        "name"=> "拍照功能",
                          "sub_button"=> [
                              [
                               "type"=> "pic_sysphoto",
