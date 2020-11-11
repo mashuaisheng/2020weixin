@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>查看天气</title>
+</head>
+<body>
 <div id="he-plugin-standard"></div>
 <script>
 WIDGET = {
@@ -14,3 +20,6 @@ WIDGET = {
 }
 </script>
 <script src="https://widget.qweather.net/standard/static/js/he-standard-common.js?v=2.0"></script>
+
+</body>
+</html>
