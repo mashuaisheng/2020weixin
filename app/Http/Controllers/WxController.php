@@ -82,11 +82,30 @@ class WxController extends Controller
                 return $token;
             }
 
+            /**
+            * 处理推送事件
+            */
+            public function wxEvent(){
+              //验签
+              if($this->check()==false){
+                //验签不通过
+                exit;
+              }
+
+              // 1 接收数据
+              $xml_str = file_get_contents("php://input");
+              // 记录日志
+              $log_str = date('Y-m-d H:i:s') . '>>>>>' . $xml_str .  " \n\n";
+              file_put_contents('wx_event.log',$log_str,FILE_APPEND);
+
+            }
+
+        //关注回复
         public function responseMsg(){
-        $postStr=file_get_contents("php://input");
-        $postobj=simplexml_load_string($postStr);
-        if($postobj->MsgType=='event'){
-            if($postobj->Event=='subscribe'){
+            $postStr=file_get_contents("php://input");
+            $postobj=simplexml_load_string($postStr);
+            if($postobj->MsgType=='event'){
+                if($postobj->Event=='subscribe'){
                 $ToUserName=$postobj->FromUserName;
                 $FromUserName=$postobj->ToUserName;
                 $CreateTime=time();
@@ -173,7 +192,26 @@ class WxController extends Controller
                             'name'  => 'BAIDU',
                             'url'   => 'https://www.baidu.com'
                         ],
-                    ]
+                        "name"=> "erji",
+                    "sub_button"=> [
+                         [
+                             "type"=> "pic_sysphoto",
+                             "name"=> "xitong",
+                             "key"=> "rselfmenu_1_0"
+                         ],
+                         [
+                             "type"=> "pic_photo_or_album",
+                              "name"=> "paizhao",
+                              "key"=> "rselfmenu_1_1"
+                         ],
+                         [
+                              "type"=> "pic_weixin",
+                              "name"=> "weixin",
+                              "key"=> "rselfmenu_1_2"
+                         ]
+                                ]
+                    ],
+
                 ];
                     //使用guzzle发起get请求
                     $client = new Client();//实例化 客户端
