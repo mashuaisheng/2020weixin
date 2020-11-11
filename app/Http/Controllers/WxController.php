@@ -111,10 +111,9 @@ class WxController extends Controller
                 $CreateTime=time();
                 $MsgType='text';
                 $a=[
-                    "欢迎来到公众号",
-                    "你好啊",
-                    "什么风把你吹来了",
-                    "welcome to China",
+                    "欢迎来到微信荣耀",
+                    "荣耀还有5秒到达战场，请做好准备",
+                    "这场荣耀，你已经失败了",
                 ];
                 $array=$a;
                 $Content=$array[array_rand($array)];
@@ -138,17 +137,17 @@ class WxController extends Controller
                 $CreateTime=time();
                 $MsgType='text';
                 switch($msg){
-                    case'命令';
-                        $Content='在吗，你是，1，图文';
+                    case'查看所有命令';
+                        $Content='在吗，你是谁，1，图文';
                         break;
                     case'在吗';
-                        $Content='在呢';
+                        $Content='我在';
                         break;
-                    case'你是';
-                        $Content='2080';
+                    case'你是谁';
+                        $Content='我是微信公众号';
                         break;
                     case'1';
-                        $Content='one';
+                        $Content='2';
                         break;
                     case'图文';
                         $Content=[
@@ -159,7 +158,7 @@ class WxController extends Controller
                     ];
                     $this->textimg($postobj,$Content);
                     default:
-                    $Content='你可以尝试一下换个命令：比如命令';
+                    $Content='未能识别您的信息，请输入：查看所有命令';
                     break;
             }
             $temple='<xml>
