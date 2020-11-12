@@ -31,7 +31,10 @@ Route::prefix('/wxs')->group(function(){
     //Route::get('/token','WxController@getAccessToken');        //获取access_token
 });
 
-Route::any('/wx/index','WxController@index');
-Route::get('/token','WxController@token');
+Route::any('/wx/index','WxController@index');//微信接入
+Route::get('/token','WxController@token'); //获取access_token
 Route::any('/wx','WxController@wx');
-Route::get('/menu','WxController@createMenu');
+Route::get('/menu','WxController@createMenu');//菜单
+Route::get('/upload_media','WxController@uploadMedia');        //上传素材
+Route::get('/send_all','WxController@sendAll');         //群发消息
+Route::any('/wxEvent','WxController@wxEvent');//微信接入

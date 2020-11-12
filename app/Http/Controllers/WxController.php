@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redis;
 use GuzzleHttp\Client;
 class WxController extends Controller
 {
+protected $xml_obj;
     //微信公众平台
         public function index(){
         $res = request()->get('echostr','');
@@ -86,11 +87,6 @@ class WxController extends Controller
             * 处理推送事件
             */
             public function wxEvent(){
-              //验签
-              if($this->check()==false){
-                //验签不通过
-                exit;
-              }
 
               // 1 接收数据
               $xml_str = file_get_contents("php://input");
@@ -98,7 +94,97 @@ class WxController extends Controller
               $log_str = date('Y-m-d H:i:s') . '>>>>>' . $xml_str .  " \n\n";
               file_put_contents('wx_event.log',$log_str,FILE_APPEND);
 
+              $obj = simplexml_load_string($xml_str);//将文件转换成 对象
+                      $this->xml_obj = $obj;
+                        
+                      $msg_type = $obj->MsgType;      //推送事件的消息类型
+                      switch($msg_type)
+                      {
+                          case 'event' :
+
+                              if($obj->Event=='subscribe')        // subscribe 扫码关注
+                              {
+                                  echo $this->subscribe();
+                                  exit;
+                              }elseif($obj->Event=='unsubscribe')     // // unsubscribe 取消关注
+                              {
+                                  echo "";
+                                  exit;
+                              }elseif ($obj->Event=='CLICK')          // 菜单点击事件
+                              {
+                                  $this->clickHandler();
+                                  // TODO
+                              }elseif($obj->Event=='VIEW')            // 菜单 view点击 事件
+                              {
+                                  // TODO
+                              }
+
+
+                              break;
+
+                          case 'text' :           //处理文本信息
+                              $this->textHandler();
+                              break;
+
+                          case 'image' :          // 处理图片信息
+                              $this->imageHandler();
+                              break;
+
+                          default:
+                              echo 'default';
+                      }
+
+                      echo "";
+
             }
+
+            /**
+                 * 处理文本消息
+                 */
+                protected function textHandler()
+                {
+                    echo '<pre>';print_r($this->xml_obj);echo '</pre>';
+                    $data = [
+                        'open_id'       => $this->xml_obj->FromUserName,
+                        'msg_type'      => $this->xml_obj->MsgType,
+                        'msg_id'        => $this->xml_obj->MsgId,
+                        'create_time'   => $this->xml_obj->CreateTime,
+                    ];
+
+                    //入库
+                    WxMediaModel::insertGetId($data);
+
+                }
+
+                /**
+                 * 处理图片消息
+                 */
+                protected function imageHandler(){
+                    $token = $this->getAccessToken();
+                    $media_id = $this->xml_obj->MediaId;
+                    $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$media_id;
+                    $img = file_get_contents($url);
+                    $media_path = 'upload/cat.jpg';
+                    $res = file_put_contents($media_path,$img);
+                    if($res)
+                    {
+                        // TODO 保存成功
+                    }else{
+                        // TODO 保存失败
+                    }
+
+                    //入库
+                    $info = [
+                        'media_id'  => $media_id,
+                        'open_id'   => $this->xml_obj->FromUserName,
+                        'msg_type'  => $this->xml_obj->MsgType,
+                        'msg_id'  => $this->xml_obj->MsgId,
+                        'create_time'  => $this->xml_obj->CreateTime,
+                        'media_path'    => $media_path
+                    ];
+                    WxMediaModel::insertGetId($info);
+
+                }
 
         //关注回复
         public function responseMsg(){
