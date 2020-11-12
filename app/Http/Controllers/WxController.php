@@ -96,7 +96,7 @@ protected $xml_obj;
 
               $obj = simplexml_load_string($xml_str);//将文件转换成 对象
                       $this->xml_obj = $obj;
-                        
+
                       $msg_type = $obj->MsgType;      //推送事件的消息类型
                       switch($msg_type)
                       {
@@ -186,6 +186,61 @@ protected $xml_obj;
 
                 }
 
+                public function  subscribe(){
+
+                        $ToUserName=$this->xml_obj->FromUserName;       // openid
+                        $FromUserName=$this->xml_obj->ToUserName;
+                        //检查用户是否存在
+                        $u = WxUserModel::where(['openid'=>$ToUserName])->first();
+                        if($u)
+                        {
+                            // TODO 用户存在
+                            $content = "欢迎回来 现在时间是：" . date("Y-m-d H:i:s");
+                        }else{
+                            //获取用户信息，并入库
+                            $user_info = $this->getWxUserInfo();
+
+                            //入库
+                            unset($user_info['subscribe']);
+                            unset($user_info['remark']);
+                            unset($user_info['groupid']);
+                            unset($user_info['substagid_listcribe']);
+                            unset($user_info['qr_scene']);
+                            unset($user_info['qr_scene_str']);
+                            unset($user_info['tagid_list']);
+
+                            WxUserModel::insertGetId($user_info);
+                            $content = "欢迎关注 现在时间是：" . date("Y-m-d H:i:s");
+
+                        }
+
+                        $xml="<xml>
+                              <ToUserName><![CDATA[".$ToUserName."]]></ToUserName>
+                              <FromUserName><![CDATA[".$FromUserName."]]></FromUserName>
+                              <CreateTime>time()</CreateTime>
+                              <MsgType><![CDATA[text]]></MsgType>
+                              <Content><![CDATA[".$content."]]></Content>
+                       </xml>";
+
+                        return $xml;
+                    }
+/**
+     * 获取用户基本信息
+     */
+    public function getWxUserInfo()
+    {
+
+        $token = $this->getAccessToken();
+        $openid = $this->xml_obj->FromUserName;
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
+
+        //请求接口
+        $client = new Client();
+        $response = $client->request('GET',$url,[
+            'verify'    => false
+        ]);
+        return  json_decode($response->getBody(),true);
+    }
         //关注回复
         public function responseMsg(){
             $postStr=file_get_contents("php://input");
