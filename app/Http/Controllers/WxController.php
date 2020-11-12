@@ -87,6 +87,18 @@ protected $xml_obj;
             * 处理推送事件
             */
             public function wxEvent(){
+                $signature = $_GET["signature"];
+                $timestamp = $_GET["timestamp"];
+                $nonce = $_GET["nonce"];
+
+                $token = "mss";
+                        //        echo $token;die;
+                                $tmpArr = array($token, $timestamp, $nonce);
+                                sort($tmpArr, SORT_STRING);
+                                $tmpStr = implode( $tmpArr );
+                                $tmpStr = sha1( $tmpStr );
+                if( $tmpStr == $signature ){
+
 
               // 1 接收数据
               $xml_str = file_get_contents("php://input");
@@ -95,7 +107,8 @@ protected $xml_obj;
               file_put_contents('wx_event.log',$log_str,FILE_APPEND);
 
               $obj = simplexml_load_string($xml_str);//将文件转换成 对象
-                      $this->xml_obj = $obj;
+              var_dump($obj);die;
+                      //$this->xml_obj = $obj;
 
                       $msg_type = $obj->MsgType;      //推送事件的消息类型
                       switch($msg_type)
@@ -135,7 +148,7 @@ protected $xml_obj;
                       }
 
                       echo "";
-
+                }
             }
 
             /**
