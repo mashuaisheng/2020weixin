@@ -321,7 +321,7 @@ protected $xml_obj;
                           $log_str = date('Y-m-d H:i:s') . '>>>>>' . $postStr .  " \n\n";
                           file_put_contents('wx_event.log',$log_str,FILE_APPEND);
 
-                          $obj = simplexml_load_string($xml_str);//将文件转换成 对象
+                          $obj = simplexml_load_string($postStr);//将文件转换成 对象
 
                                   //$this->xml_obj = $obj;
                                   $msg_type = $obj->MsgType;      //推送事件的消息类型
