@@ -318,7 +318,7 @@ protected $xml_obj;
             // 1 接收数据
 
                           // 记录日志
-                          $log_str = date('Y-m-d H:i:s') . '>>>>>' . $xml_str .  " \n\n";
+                          $log_str = date('Y-m-d H:i:s') . '>>>>>' . $postStr .  " \n\n";
                           file_put_contents('wx_event.log',$log_str,FILE_APPEND);
 
                           $obj = simplexml_load_string($xml_str);//将文件转换成 对象
