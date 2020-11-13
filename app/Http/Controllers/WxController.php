@@ -179,7 +179,6 @@ protected $xml_obj;
                     }else{
                         // TODO 保存失败
                     }
-
                     //入库
                     $info = [
                         'media_id'  => $media_id,
@@ -206,7 +205,6 @@ protected $xml_obj;
                         }else{
                             //获取用户信息，并入库
                             $user_info = $this->getWxUserInfo();
-
                             //入库
                             unset($user_info['subscribe']);
                             unset($user_info['remark']);
@@ -241,7 +239,6 @@ protected $xml_obj;
         //$openid = $this->xml_obj->FromUserName;
         $openid= "odv_XwFbDXIcd9r7WFoAeN5LOU8M";
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
-        print_r($url);exit;
 
         //请求接口
         $client = new Client();
@@ -249,6 +246,7 @@ protected $xml_obj;
             'verify'    => false
         ]);
         return  json_decode($response->getBody(),true);
+
     }
         //关注回复
         public function responseMsg(){
