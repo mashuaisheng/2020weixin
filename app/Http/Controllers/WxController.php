@@ -90,18 +90,16 @@ protected $xml_obj;
                 $signature = $_GET["signature"];
                 $timestamp = $_GET["timestamp"];
                 $nonce = $_GET["nonce"];
-
                 $token = "mss";
                         //        echo $token;die;
-                                $tmpArr = array($token, $timestamp, $nonce);
-                                sort($tmpArr, SORT_STRING);
-                                $tmpStr = implode( $tmpArr );
-                                $tmpStr = sha1( $tmpStr );
+                $tmpArr = array($token, $timestamp, $nonce);
+                sort($tmpArr, SORT_STRING);
+                $tmpStr = implode( $tmpArr );
+                $tmpStr = sha1( $tmpStr );
                 if( $tmpStr == $signature ){
-
-
               // 1 接收数据
               $xml_str = file_get_contents("php://input");
+              dd($xml_str);
               // 记录日志
               $log_str = date('Y-m-d H:i:s') . '>>>>>' . $xml_str .  " \n\n";
               file_put_contents('wx_event.log',$log_str,FILE_APPEND);
@@ -109,12 +107,9 @@ protected $xml_obj;
               $obj = simplexml_load_string($xml_str);//将文件转换成 对象
               var_dump($obj);die;
                       //$this->xml_obj = $obj;
-
                       $msg_type = $obj->MsgType;      //推送事件的消息类型
-                      switch($msg_type)
-                      {
+                      switch($msg_type){
                           case 'event' :
-
                               if($obj->Event=='subscribe')        // subscribe 扫码关注
                               {
                                   echo $this->subscribe();
@@ -131,8 +126,6 @@ protected $xml_obj;
                               {
                                   // TODO
                               }
-
-
                               break;
 
                           case 'text' :           //处理文本信息
