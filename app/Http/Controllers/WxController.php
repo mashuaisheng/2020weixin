@@ -315,6 +315,49 @@ protected $xml_obj;
                     </xml>';
             $info =  sprintf($temple,$ToUserName,$FromUserName,$CreateTime,$MsgType,$Content);
             echo $info;
+            // 1 接收数据
+
+                          // 记录日志
+                          $log_str = date('Y-m-d H:i:s') . '>>>>>' . $xml_str .  " \n\n";
+                          file_put_contents('wx_event.log',$log_str,FILE_APPEND);
+
+                          $obj = simplexml_load_string($xml_str);//将文件转换成 对象
+
+                                  //$this->xml_obj = $obj;
+                                  $msg_type = $obj->MsgType;      //推送事件的消息类型
+                                  switch($msg_type){
+                                      case 'event' :
+                                          if($obj->Event=='subscribe')        // subscribe 扫码关注
+                                          {
+                                              echo $this->subscribe();
+                                              exit;
+                                          }elseif($obj->Event=='unsubscribe')     // // unsubscribe 取消关注
+                                          {
+                                              echo "";
+                                              exit;
+                                          }elseif ($obj->Event=='CLICK')          // 菜单点击事件
+                                          {
+                                              $this->clickHandler();
+                                              // TODO
+                                          }elseif($obj->Event=='VIEW')            // 菜单 view点击 事件
+                                          {
+                                              // TODO
+                                          }
+                                          break;
+
+                                      case 'text' :           //处理文本信息
+                                          $this->textHandler();
+                                          break;
+
+                                      case 'image' :          // 处理图片信息
+                                          $this->imageHandler();
+                                          break;
+
+                                      default:
+                                          echo 'default';
+                                  }
+
+                                  echo "";
             // exit;
         }
 
