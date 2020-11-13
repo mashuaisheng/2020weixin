@@ -238,7 +238,8 @@ protected $xml_obj;
     {
 
         $token = $this->getAccessToken();
-        $openid = $this->xml_obj->FromUserName;
+        //$openid = $this->xml_obj->FromUserName;
+        $openid= "odv_XwFbDXIcd9r7WFoAeN5LOU8M";
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
         print_r($url);exit;
 
