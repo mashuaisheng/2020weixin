@@ -167,11 +167,11 @@ protected $xml_obj;
                  * 处理图片消息
                  */
                 protected function imageHandler(){
-                    $token = $this->getAccessToken();
+                    $token = $this->token();
                     $media_id = $this->xml_obj->MediaId;
                     $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$token.'&media_id='.$media_id;
                     $img = file_get_contents($url);
-                    $media_path = 'upload/cat.jpg';
+                    $media_path = 'upload/timg.jpg';
                     $res = file_put_contents($media_path,$img);
                     if($res)
                     {
