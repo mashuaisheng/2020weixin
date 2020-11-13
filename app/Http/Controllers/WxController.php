@@ -13,7 +13,7 @@ protected $xml_obj;
         if($this->checkSignature() && !empty($res)){
              echo $res;
         }
-            $this->wxEvent();
+            $this->responseMsg();
         }
         //配置连接
         private function checkSignature()
@@ -258,9 +258,7 @@ protected $xml_obj;
                 $CreateTime=time();
                 $MsgType='text';
                 $a=[
-                    "欢迎来到微信荣耀",
-                    "荣耀还有5秒到达战场，请做好准备",
-                    "这场荣耀，你已经失败了",
+                    "欢迎来到微信公众号",
                 ];
                 $array=$a;
                 $Content=$array[array_rand($array)];
