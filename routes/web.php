@@ -38,3 +38,5 @@ Route::get('/menu','WxController@createMenu');//菜单
 Route::get('/upload_media','WxController@uploadMedia');        //上传素材
 Route::get('/send_all','WxController@sendAll');         //群发消息
 Route::any('/wxEvent','WxController@wxEvent');//微信接入
+
+Route::any('/getWxUserInfo','WxController@getWxUserInfo');//微信接入

@@ -150,6 +150,7 @@ protected $xml_obj;
                 protected function textHandler()
                 {
                     echo '<pre>';print_r($this->xml_obj);echo '</pre>';
+
                     $data = [
                         'open_id'       => $this->xml_obj->FromUserName,
                         'msg_type'      => $this->xml_obj->MsgType,
@@ -239,6 +240,7 @@ protected $xml_obj;
         $token = $this->getAccessToken();
         $openid = $this->xml_obj->FromUserName;
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
+        print_r($url);exit;
 
         //请求接口
         $client = new Client();
