@@ -13,7 +13,7 @@ protected $xml_obj;
         if($this->checkSignature() && !empty($res)){
              echo $res;
         }
-            $this->responseMsg();
+            $this->wxEvent();
         }
         //配置连接
         private function checkSignature()
@@ -99,13 +99,13 @@ protected $xml_obj;
                 if( $tmpStr == $signature ){
               // 1 接收数据
               $xml_str = file_get_contents("php://input");
-              dd($xml_str);
+
               // 记录日志
               $log_str = date('Y-m-d H:i:s') . '>>>>>' . $xml_str .  " \n\n";
               file_put_contents('wx_event.log',$log_str,FILE_APPEND);
 
               $obj = simplexml_load_string($xml_str);//将文件转换成 对象
-              var_dump($obj);die;
+
                       //$this->xml_obj = $obj;
                       $msg_type = $obj->MsgType;      //推送事件的消息类型
                       switch($msg_type){
@@ -235,7 +235,7 @@ protected $xml_obj;
     public function getWxUserInfo()
     {
 
-        $token = $this->getAccessToken();
+        $token = $this->token();
         //$openid = $this->xml_obj->FromUserName;
         $openid= "odv_XwFbDXIcd9r7WFoAeN5LOU8M";
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$token.'&openid='.$openid.'&lang=zh_CN';
